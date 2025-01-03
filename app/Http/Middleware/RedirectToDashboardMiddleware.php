@@ -19,7 +19,7 @@ class RedirectToDashboardMiddleware
         if (isset($_COOKIE['access_token'])) {
             $token = PersonalAccessToken::findToken($_COOKIE['access_token']);
             if ($token && $token->expires_at > now()) {
-                return redirect('/crm/dashboard');
+                return redirect('/');
             }
             unset($_COOKIE['access_token']);
             setcookie('access_token', '', -1, '/');
