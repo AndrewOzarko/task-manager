@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\Task;
-use App\Models\User;
-use Database\Seeders\TaskTableSeeder;
 use Database\Seeders\UserTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
