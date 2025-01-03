@@ -38,6 +38,7 @@ class TaskTableSeeder extends Seeder
         ];
 
         foreach ($tasks as $title) {
+            usleep(100000);
             Task::create([
                 'title' => $title,
                 'description' => $this->generateDescription($title),
