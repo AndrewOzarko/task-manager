@@ -21,6 +21,19 @@ Route::middleware(['auth:sanctum', EncryptHistoryMiddleware::class])->group(func
     Route::get('/', function () {
         return Inertia::render('Dashboard/List');
     })->name('dashboard');
+    Route::get('/tasks/create', function () {
+        return Inertia::render('Dashboard/Create');
+    })->name('dashboard');
+    Route::get('/tasks/{id}', function (int $id) {
+        return Inertia::render('Dashboard/Task', [
+            'taskId' => $id,
+        ]);
+    })->name('taskById');
+    Route::get('/tasks/{id}/edit', function (int $id) {
+        return Inertia::render('Dashboard/Edit', [
+            'taskId' => $id,
+        ]);
+    })->name('editById');
     Route::get('/kanban', function () {
         return Inertia::render('Dashboard/Kanban');
     })->name('kanban');

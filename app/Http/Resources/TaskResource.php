@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\Task\PriorityEnum;
+use App\Enums\Task\StatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,9 +19,12 @@ class TaskResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'description' => $this->description,
+            'status_label' => StatusEnum::from($this->status)->label(),
+            'priority_label' => PriorityEnum::from($this->priority)->label(),
             'status' => $this->status,
             'priority' => $this->priority,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }
