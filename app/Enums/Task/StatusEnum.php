@@ -21,7 +21,7 @@ enum StatusEnum: int
     {
         return array_map(fn ($case) => [
             'value' => $case->value,
-            'label' => $case->name
+            'label' => $case->label()
         ], self::cases());
     }
 }
