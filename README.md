@@ -38,6 +38,14 @@
     make exec_bash
 ```
 
+# View log (last 50 lines)
+
+It can use for forgot password flow
+
+```
+    make look-log
+```
+
 # Technologies
 
 > PHP 8.4

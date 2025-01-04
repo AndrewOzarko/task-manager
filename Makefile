@@ -24,5 +24,5 @@ pint:
 	docker compose exec --user 1000 todo ./vendor/bin/pint
 run-tests:
 	docker compose exec --user 1000 todo ./vendor/bin/phpunit
-
-
+look-log:
+	docker compose exec --user 1000 todo tail -n 50 storage/logs/laravel.log

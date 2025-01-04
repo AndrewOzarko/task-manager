@@ -1,4 +1,4 @@
-import {Link} from "@inertiajs/react";
+import {Link, router} from "@inertiajs/react";
 
 export default function Sidebar({ isSidebarOpen, toggleSidebar }) {
     return (
@@ -52,12 +52,15 @@ export default function Sidebar({ isSidebarOpen, toggleSidebar }) {
                     <h6 className="text-blue-600 text-sm font-bold px-4">User</h6>
                     <ul className="mt-3 space-y-2">
                         <li>
-                            <Link
-                                href="/api/logout"
+                            <button
+                                onClick={async () => {
+                                    await router.get('/api/logout')
+                                    await router.visit('/login')
+                                }}
                                 className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all"
                             >
                                 Logout
-                            </Link>
+                            </button>
                         </li>
                     </ul>
                 </div>

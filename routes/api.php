@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::post('/registration', [AuthenticationController::class, 'registration']);
+Route::post('/forgot', [AuthenticationController::class, 'forgotPassword']);
+Route::post('/reset', [AuthenticationController::class, 'resetPassword']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [UserController::class, 'logout']);

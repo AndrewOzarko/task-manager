@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\RedirectToDashboardMiddleware;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\EncryptHistoryMiddleware;
@@ -14,7 +16,25 @@ Route::middleware([RedirectToDashboardMiddleware::class, EncryptHistoryMiddlewar
     })->name('login');
     Route::get('/forgot', function () {
         return Inertia::render('ForgotPassword');
-    })->name('forgot');
+    })->name('password.email');
+    Route::get('/reset/{token}/{email}', function (string $token, string $email) {
+        $passwordReset = DB::table('password_reset_tokens')
+            ->where('email','=', $email)
+            ->first();
+
+        if (!$passwordReset) {
+            return redirect('/');
+        }
+        if (!Hash::check($token, $passwordReset->token)) {
+            return redirect('/');
+        }
+
+        return Inertia::render('ResetPassword', [
+            'token' => $token,
+            'email' => $email,
+        ]);
+    })->name('password.reset');
+
 });
 
 Route::middleware(['auth:sanctum', EncryptHistoryMiddleware::class])->group(function () {
