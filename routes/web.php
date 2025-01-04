@@ -19,7 +19,7 @@ Route::middleware([RedirectToDashboardMiddleware::class, EncryptHistoryMiddlewar
     })->name('password.email');
     Route::get('/reset/{token}/{email}', function (string $token, string $email) {
         $passwordReset = DB::table('password_reset_tokens')
-            ->where('email','=', $email)
+            ->where('email', '=', $email)
             ->first();
 
         if (!$passwordReset) {

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
+
 class AuthenticationController extends Controller
 {
     public function login(LoginRequest $request): UserResource
