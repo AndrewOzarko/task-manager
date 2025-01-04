@@ -22,6 +22,7 @@ class TaskController extends Controller
             ->defaultSort('-created_at')
             ->allowedSorts('created_at', )
             ->paginate(10);
+
         return TaskResource::collection($tasks);
     }
 

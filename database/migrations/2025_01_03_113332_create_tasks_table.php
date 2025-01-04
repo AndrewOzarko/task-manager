@@ -14,9 +14,12 @@ return new class () extends Migration {
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->smallInteger('status')->default(0);
-            $table->smallInteger('priority');
-            $table->timestamps();
+            $table->smallInteger('status')
+                ->index()
+                ->default(0);
+            $table->smallInteger('priority')
+                ->index();
+            $table->timestamps()    ;
         });
     }
 
