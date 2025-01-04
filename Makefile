@@ -4,6 +4,8 @@ install:
 	docker compose exec --user 1000 todo composer install
 	docker compose exec --user 1000 todo php artisan key:generate
 	docker compose exec --user 1000 todo php artisan migrate:fresh --seed
+	docker compose exec --user 1000 todo npm i
+	docker compose exec --user 1000 todo npm run build
 	docker compose down
 	docker compose up -d
 build:
