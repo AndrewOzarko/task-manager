@@ -53,12 +53,6 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    public function transfer(TransferTaskRequest $request, Task $task): TaskResource
-    {
-        $task->update($request->validated());
-        return new TaskResource($task);
-    }
-
     public function getOptions(): JsonResponse
     {
         return response()->json([
