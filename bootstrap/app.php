@@ -16,13 +16,13 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append([
+            AddQueuedCookiesToResponse::class,
             AddAccessTokenToHeaderMiddleware::class,
         ]);
         $middleware->web(append: [
             HandleInertiaRequests::class,
         ]);
         $middleware->api([
-            AddQueuedCookiesToResponse::class,
         ]);
 
     })

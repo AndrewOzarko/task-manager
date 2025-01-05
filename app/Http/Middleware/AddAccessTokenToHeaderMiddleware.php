@@ -15,9 +15,10 @@ class AddAccessTokenToHeaderMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (isset($_COOKIE['access_token'])) {
-            $accessToken = $_COOKIE['access_token'];
-            $request->headers->set('Authorization', 'Bearer ' . $accessToken);
+        $token = $request->cookie('access_token');
+
+        if ($token) {
+            $request->headers->set('Authorization', 'Bearer ' . $token);
         }
         return $next($request);
     }
