@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Enums\Task\PriorityEnum;
 use App\Enums\Task\StatusEnum;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTaskRequest;
-use App\Http\Requests\TransferTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;

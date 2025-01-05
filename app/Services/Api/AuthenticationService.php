@@ -1,25 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services\Api;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegistrationRequest;
-use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
 
-class AuthenticationController extends Controller
+class AuthenticationService
 {
-    public function login(LoginRequest $request): UserResource
+    public function login(array $data): User
     {
-        $data = $request->validated();
         $user = User::query()->where('email', $data['email'])->first();
-        if (!Hash::check($data['password'], $user['password'])) {
+        if (!Hash::check($data['password'], $user->password)) {
             throw ValidationException::withMessages(
                 ['email' => 'Username or password is incorrect.']
             );
@@ -37,13 +31,14 @@ class AuthenticationController extends Controller
                 false,
             )
         );
-        return new UserResource($user);
+
+        return $user;
     }
 
-    public function registration(RegistrationRequest $request): USerResource
+    public function registration(array $data): User
     {
-        $data = $request->validated();
-        $user = user::query()->create($data);
+        $user = User::query()->create($data);
+
         $user->access_token = $user->createToken('token', ['*'], now()->addDay())->plainTextToken;
         Cookie::queue(
             Cookie::make(
@@ -57,35 +52,25 @@ class AuthenticationController extends Controller
                 false,
             )
         );
-        return new UserResource($user);
+
+        return $user;
     }
 
-    public function forgotPassword(Request $request): JsonResponse
+    public function forgotPassword(array $data): void
     {
-        $request->validate(['email' => 'required|email']);
-
-        $status = Password::sendResetLink($request->only('email'));
-
+        $status = Password::sendResetLink($data);
         if ($status !== Password::RESET_LINK_SENT) {
             throw ValidationException::withMessages([
                 'email' => [trans($status)],
             ]);
         }
-
-        return response()->json();
     }
 
-    public function resetPassword(Request $request): JsonResponse
+    public function resetPassword(array $data): void
     {
-        $request->validate([
-            'email' => 'required|email',
-            'token' => 'required|string',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
+            $data,
+            function (User $user, string $password) {
                 $user->forceFill([
                     'password' => Hash::make($password),
                 ])->save();
@@ -98,6 +83,5 @@ class AuthenticationController extends Controller
             ]);
         }
 
-        return response()->json();
     }
 }

@@ -34,7 +34,7 @@ Route::middleware([RedirectToDashboardMiddleware::class, EncryptHistoryMiddlewar
             'email' => $email,
         ]);
     })->name('password.reset');
- });
+});
 
 Route::middleware(['auth:sanctum', EncryptHistoryMiddleware::class])->group(function () {
     Route::get('/', function () {
