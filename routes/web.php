@@ -1,6 +1,9 @@
 <?php
 
+use App\Enums\Task\StatusEnum;
 use App\Http\Middleware\RedirectToDashboardMiddleware;
+use App\Http\Resources\TaskResource;
+use App\Models\Task;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -53,7 +56,13 @@ Route::middleware(['auth:sanctum', EncryptHistoryMiddleware::class])->group(func
             'taskId' => $id,
         ]);
     })->name('editById');
+
     Route::get('/kanban', function () {
-        return Inertia::render('Dashboard/Kanban');
+        return Inertia::render('Dashboard/Kanban', [
+            'tasks' => TaskResource::collection(Task::all()),
+            'options' => [
+                'statuses' => StatusEnum::options(),
+            ],
+        ]);
     })->name('kanban');
 });

@@ -34,6 +34,12 @@ export default function Sidebar({ isSidebarOpen, toggleSidebar }) {
                                 List
                             </Link>
                             <Link
+                                href="/kanban"
+                                className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all"
+                            >
+                                Kanban
+                            </Link>
+                            <Link
                                 href="/tasks/create"
                                 className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all"
                             >

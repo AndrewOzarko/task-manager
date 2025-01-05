@@ -6,6 +6,7 @@ use App\Enums\Task\PriorityEnum;
 use App\Enums\Task\StatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\TransferTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
@@ -50,6 +51,14 @@ class TaskController extends Controller
     public function delete(Task $task): TaskResource
     {
         $task->delete();
+        return new TaskResource($task);
+    }
+
+    public function transfer(Task $task, TransferTaskRequest $request): TaskResource
+    {
+        $data = $request->validated();
+        $task->update($data);
+
         return new TaskResource($task);
     }
 
