@@ -3,7 +3,7 @@ import { useDrag, useDrop, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import axios from "axios";
 import Layout from "../../Layouts/Layout.jsx";
-import {Head, usePage} from "@inertiajs/react";
+import {Head, router, usePage} from "@inertiajs/react";
 import TaskModal from './TaskModal';
 import "./kanban.css";
 
@@ -23,6 +23,18 @@ export default function  Kanban() {
         setSelectedTask(null);
     };
 
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`/api/tasks/${id}`);
+            router.visit('/kanban', {
+                only: ['tasks'],
+            })
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        } finally {
+        }
+    };
+
     const [columns, setColumns] = useState(
         options.statuses.map((status) => ({
             id: status.value,
@@ -33,7 +45,6 @@ export default function  Kanban() {
 
     const moveTask = async (taskId, targetStatusId) => {
         try {
-            console.log(targetStatusId)
             await axios.post(`/api/tasks/${taskId}/transfer`, { status: targetStatusId });
 
             setColumns((prevColumns) =>
@@ -76,8 +87,24 @@ export default function  Kanban() {
 
         return (
             <div className="kanban-task" ref={dragRef} onClick={() => openModal(task)}>
-                <p>{task.title}</p>
-                <span>Priority: {task.priority_label}</span>
+                <div className={"flex items-center pb-3"}>
+                    <h5 className={"text-gray-800 text-xl font-bold flex-1"}>{task.title}</h5>
+                    <button type={"button"} onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(task.id);
+                    }}>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             className="w-3 ml-2 cursor-pointer shrink-0 fill-red-400 hover:fill-red-500"
+                             viewBox="0 0 320.591 320.591">
+                            <path
+                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"></path>
+                            <path
+                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <span>{task.priority_label}</span>
             </div>
         );
     };
@@ -94,7 +121,7 @@ export default function  Kanban() {
                         ))}
                     </div>
                 </DndProvider>
-                <TaskModal task={selectedTask} isOpen={isModalOpen} onClose={closeModal} />
+                <TaskModal task={selectedTask} isOpen={isModalOpen} onClose={closeModal}/>
             </div>
         </Layout>
     );

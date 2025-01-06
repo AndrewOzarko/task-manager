@@ -4,10 +4,10 @@ const TaskModal = ({ task, isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 p-4 flex justify-center items-center z-[1000]">
+        <div className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
             <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
                 <div className="flex items-center pb-3 border-b border-gray-300">
-                    <h3 className="text-gray-800 text-xl font-bold flex-1">Task: {task.title}</h3>
+                    <h3 className="text-gray-800 text-xl font-bold flex-1">{task.title}</h3>
                     <svg
                         onClick={onClose}
                         xmlns="http://www.w3.org/2000/svg"

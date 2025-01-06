@@ -12,7 +12,7 @@ export default function Layout({ children }) {
                 <div className="flex flex-wrap items-center justify-between gap-4 w-full relative">
                     <a href="/">
                         <h1 className="inline-block mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-                            Task Manager
+                            TM
                         </h1>
                     </a>
 
